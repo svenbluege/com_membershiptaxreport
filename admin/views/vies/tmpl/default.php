@@ -71,12 +71,15 @@ defined('_JEXEC') or die('Restricted access');
 <form action="<?php echo JRoute::_('index.php');?>" method="get">
 
     <select name="month">
-        <?php FOR($i=1; $i<17; $i++) {
+        <?php FOR($i=1; $i<18; $i++) {
             $dateObj   = DateTime::createFromFormat('!m', $i);
             $monthName = $dateObj->format('F'); // March
             $selected = $this->month == $i ? 'selected="selected"': '';
-            if ($i>12) {
+            if ($i>12 && $i<=16) {
                 $monthName = 'Q' . ($i-12);
+            }
+            if ($i == 17) {
+                $monthName = 'Year';
             }
             echo "<option value='$i' $selected>$monthName</option>";
         }?>
@@ -95,7 +98,7 @@ defined('_JEXEC') or die('Restricted access');
 
 </form>
 
-<h1>VIES Report for <?php echo ($this->month>12?'Q'.($this->month-12):$this->month) .'.'. $this->year; ?></h1>
+<h1>VIES Report for <?php echo ($this->month>12&&$this->month<=16?'Q'.($this->month-12):($this->month==17)?'Year':$this->month) .'.'. $this->year; ?></h1>
 
 <table class="report">
 

@@ -37,6 +37,7 @@ class MembershiptaxreportModelMoss extends JModelAdmin
             case 14: return '4,5,6'; break;
             case 15: return '7,8,9'; break;
             case 16: return '10,11,12'; break;
+            case 17: return '1,2,3,4,5,6,7,8,9,10,11,12'; break;
             default: return (int) $month; break;
         }
     }
