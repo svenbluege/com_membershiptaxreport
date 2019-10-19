@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * @package     Sven.Bluege
@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access'); 
+defined('_JEXEC') or die('Restricted access');
 
 ?>
 <style>
@@ -178,7 +178,7 @@ defined('_JEXEC') or die('Restricted access');
             <?php echo $subscription->amount; ?>
         </td>
         <td class="amount">
-            <?php echo $subscription->tax; ?> %
+            <?php printf('%d',$subscription->tax_rate); ?> %
         </td>
         <td class="amount">
             <?php echo $subscription->tax_amount; ?>

@@ -159,7 +159,7 @@ defined('_JEXEC') or die('Restricted access');
                 <?php echo $subscription->amount; ?>
             </td>
             <td class="amount">
-                <?php echo $subscription->tax; ?> %
+                <?php printf('%d',$subscription->tax_rate); ?> %
             </td>
             <td class="amount">
                 <?php echo $subscription->tax_amount; ?>

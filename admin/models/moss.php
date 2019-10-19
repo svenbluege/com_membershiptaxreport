@@ -42,8 +42,8 @@ class MembershiptaxreportModelMoss extends JModelAdmin
     }
 
     private function getEUVATCountryCondition() {
-        $countryCodes = array_keys(OSMembershipHelperEuvat::$europeanUnionVATInformation);
-        return implode(',',array_map(function ($item) {return JFactory::getDbo()->quote($item); } , $countryCodes));
+        $countryCodes = OSMembershipHelperEuvat::$europeanUnionVATInformation;
+        return implode(',',array_map(function ($item) {return JFactory::getDbo()->quote($item[0]); } , $countryCodes));
     }
 
     protected function getSubscriberQuery($year, $month) {
