@@ -14,8 +14,7 @@ class MembershiptaxreportControllerMoss extends JControllerForm
 {
     public function getModel($name = 'Moss', $prefix ='MembershiptaxreportModel', $config = array('ignore_request' => true))
     {
-        $model = parent::getModel($name, $prefix, $config);
-        return $model;
+        return parent::getModel($name, $prefix, $config);
     }
 
     public function export()
@@ -32,8 +31,8 @@ class MembershiptaxreportControllerMoss extends JControllerForm
         $model = $this->getModel();
         $subscriptions = $model->getSubscriptions($year, $month);
 
-        MembershiptaxreportHelper::monthToString($month);
-        $filename = "moss_{$year}_$month.csv";
+        $monthName = MembershiptaxreportHelper::monthToString($month);
+        $filename = "moss_{$year}_$monthName.csv";
 
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment; filename="'.$filename.'"');

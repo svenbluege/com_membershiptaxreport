@@ -75,7 +75,7 @@ defined('_JEXEC') or die('Restricted access');
 
 </form>
 
-<h1>MOSS Report for <?php echo MembershiptaxreportHelper::monthToString($this->month) .'.'. $this->year; ?> (<a href="<?php echo JRoute::_('index.php?option=com_membershiptaxreport&task=moss.export&year='.$this->year.'&month='.$this->month) ?>">Export</a>) </h1>
+<h1>MOSS Report for <?php echo MembershiptaxreportHelper::monthToString($this->month) .'.'. $this->year; ?> (<a href="<?php echo JRoute::_('index.php?option=com_membershiptaxreport&task=moss.export&year='.$this->year.'&month='.$this->month) ?>">Export</a>)</h1>
 
 <table class="report">
 

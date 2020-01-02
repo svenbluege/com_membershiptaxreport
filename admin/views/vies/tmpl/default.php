@@ -91,7 +91,7 @@ defined('_JEXEC') or die('Restricted access');
 
 </form>
 
-<h1>VIES Report for <?php echo MembershiptaxreportHelper::monthToString($this->month).'.'. $this->year; ?></h1>
+<h1>VIES Report for <?php echo MembershiptaxreportHelper::monthToString($this->month).'.'. $this->year; ?> (<a href="<?php echo JRoute::_('index.php?option=com_membershiptaxreport&task=vies.export&year='.$this->year.'&month='.$this->month) ?>">Export</a>)</h1>
 
 <table class="report">
 
@@ -131,7 +131,7 @@ defined('_JEXEC') or die('Restricted access');
 
         <tr>
             <td>
-                <strong>EG-<?php printf("%'.05d", $subscription->invoice_number); ?></strong><br>
+                <strong title="<?php echo $subscription->id?>">EG-<?php printf("%'.05d", $subscription->invoice_number); ?></strong><br>
                 <?php echo $subscription->created_date; ?>
             </td>
             <td>
