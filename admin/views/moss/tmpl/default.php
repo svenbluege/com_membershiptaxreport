@@ -56,15 +56,8 @@ defined('_JEXEC') or die('Restricted access');
 
     <select name="month">
         <?php FOR($i=1; $i<18; $i++) {
-            $dateObj   = DateTime::createFromFormat('!m', $i);
-            $monthName = $dateObj->format('F'); // March
             $selected = $this->month == $i ? 'selected="selected"': '';
-            if ($i>12 && $i<=16) {
-                $monthName = 'Q' . ($i-12);
-            }
-            if ($i == 17) {
-                $monthName = 'Year';
-            }
+            $monthName = MembershiptaxreportHelper::monthToString($i);
             echo "<option value='$i' $selected>$monthName</option>";
         }?>
     </select>
@@ -82,7 +75,7 @@ defined('_JEXEC') or die('Restricted access');
 
 </form>
 
-<h1>MOSS Report for <?php echo ($this->month>12&&$this->month<=16?'Q'.($this->month-12):($this->month==17)?'Year':$this->month) .'.'. $this->year; ?></h1>
+<h1>MOSS Report for <?php echo MembershiptaxreportHelper::monthToString($this->month) .'.'. $this->year; ?> (<a href="<?php echo JRoute::_('index.php?option=com_membershiptaxreport&task=moss.export&year='.$this->year.'&month='.$this->month) ?>">Export</a>) </h1>
 
 <table class="report">
 

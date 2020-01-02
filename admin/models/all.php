@@ -21,7 +21,7 @@ class MembershiptaxreportModelAll extends MembershiptaxreportModelMoss
             ->select('*, c.name as countryname, fv.field_value as vat_number, s.amount-s.discount_amount as amount')
             ->from('#__osmembership_subscribers s left join #__osmembership_countries c on (s.country = c.name OR s.country = c.country_2_code)')
             ->join('LEFT', '#__osmembership_field_value fv on s.id = fv.subscriber_id' )
-            ->where('MONTH(created_date) in (' . $this->getMonthCondition($month) .')'
+            ->where('MONTH(created_date) in (' . MembershiptaxreportHelper::getMonthCondition($month) .')'
                 . ' AND YEAR(created_date) = '. (int)$year
                 . ' AND (s.published = 1 OR s.published = 2)'
             )
@@ -33,8 +33,6 @@ class MembershiptaxreportModelAll extends MembershiptaxreportModelMoss
     public function getSubscriptions($year, $month) {
         $db     = JFactory::getDbo();
         $query  = $this->getSubscriberQuery($year, $month);
-
-        echo $query->dump();
 
         $db->setQuery($query);
         return $db->loadObjectList();

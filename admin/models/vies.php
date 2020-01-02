@@ -19,9 +19,6 @@ class MembershiptaxreportModelVies extends MembershiptaxreportModelMoss
         $db     = JFactory::getDbo();
         $query  = $this->getSubscriberQuery($year, $month);
         $query ->where('tax_amount = 0');
-
-        echo $query->dump();
-
         $db->setQuery($query);
         return $db->loadObjectList();
     }

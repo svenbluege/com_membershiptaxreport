@@ -14,6 +14,9 @@ defined('_JEXEC') or die('Restricted access');
 $view = JFactory::getApplication()->input->get('view');
 $task = JFactory::getApplication()->input->get('task');
 
+// Require helper file
+JLoader::register('MembershiptaxreportHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/membershiptaxreport.php');
+
 // Execute the task.
 $controller	= JControllerLegacy::getInstance('Membershiptaxreport');
 $controller->execute(JFactory::getApplication()->input->get('task'));

@@ -31,16 +31,7 @@ class MembershiptaxreportModelMoss extends JModelAdmin
         return null;
     }
 
-    protected function getMonthCondition($month) {
-        switch($month) {
-            case 13: return '1,2,3'; break;
-            case 14: return '4,5,6'; break;
-            case 15: return '7,8,9'; break;
-            case 16: return '10,11,12'; break;
-            case 17: return '1,2,3,4,5,6,7,8,9,10,11,12'; break;
-            default: return (int) $month; break;
-        }
-    }
+
 
     private function getEUVATCountryCondition() {
         $countryCodes = OSMembershipHelperEuvat::$europeanUnionVATInformation;
@@ -53,7 +44,7 @@ class MembershiptaxreportModelMoss extends JModelAdmin
             ->select('*, c.name as countryname, fv.field_value as vat_number, s.amount-s.discount_amount as amount')
             ->from('#__osmembership_subscribers s left join #__osmembership_countries c on (s.country = c.name OR s.country = c.country_2_code)')
             ->join('LEFT', '#__osmembership_field_value fv on s.id = fv.subscriber_id' )
-            ->where('MONTH(created_date) in (' . $this->getMonthCondition($month) .')'
+            ->where('MONTH(created_date) in (' . MembershiptaxreportHelper::getMonthCondition($month) .')'
                 . ' AND YEAR(created_date) = '. (int)$year
                 . ' AND country in ('. $this->getEUVATCountryCondition() .')'
                 . ' AND (s.published = 1 OR s.published = 2)'
@@ -67,8 +58,6 @@ class MembershiptaxreportModelMoss extends JModelAdmin
         $db     = JFactory::getDbo();
         $query  = $this->getSubscriberQuery($year, $month);
         $query ->where('tax_amount > 0');
-
-        echo $query->dump();
 
         $db->setQuery($query);
         return $db->loadObjectList();
