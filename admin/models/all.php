@@ -10,42 +10,10 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-require_once (JPATH_SITE.'/components/com_osmembership/helper/euvat.php');
+require_once __DIR__.'/moss.php';
 
-class MembershiptaxreportModelMoss extends JModelAdmin
+class MembershiptaxreportModelAll extends MembershiptaxreportModelMoss
 {
-
-
-    /**
-     * Abstract method for getting the form from the model.
-     *
-     * @param array $data Data for the form.
-     * @param boolean $loadData True if the form is to load its own data (default case), false if not.
-     *
-     * @return  \JForm|boolean  A \JForm object on success, false on failure
-     *
-     * @since   1.6
-     */
-    public function getForm($data = array(), $loadData = true)
-    {
-        return null;
-    }
-
-    protected function getMonthCondition($month) {
-        switch($month) {
-            case 13: return '1,2,3'; break;
-            case 14: return '4,5,6'; break;
-            case 15: return '7,8,9'; break;
-            case 16: return '10,11,12'; break;
-            case 17: return '1,2,3,4,5,6,7,8,9,10,11,12'; break;
-            default: return (int) $month; break;
-        }
-    }
-
-    private function getEUVATCountryCondition() {
-        $countryCodes = OSMembershipHelperEuvat::$europeanUnionVATInformation;
-        return implode(',',array_map(function ($item) {return JFactory::getDbo()->quote($item[0]); } , $countryCodes));
-    }
 
     protected function getSubscriberQuery($year, $month) {
         $db     = JFactory::getDbo();
@@ -55,7 +23,6 @@ class MembershiptaxreportModelMoss extends JModelAdmin
             ->join('LEFT', '#__osmembership_field_value fv on s.id = fv.subscriber_id' )
             ->where('MONTH(created_date) in (' . $this->getMonthCondition($month) .')'
                 . ' AND YEAR(created_date) = '. (int)$year
-                . ' AND country in ('. $this->getEUVATCountryCondition() .')'
                 . ' AND (s.published = 1 OR s.published = 2)'
             )
             ->order('country_2_code, created_date');
@@ -66,7 +33,6 @@ class MembershiptaxreportModelMoss extends JModelAdmin
     public function getSubscriptions($year, $month) {
         $db     = JFactory::getDbo();
         $query  = $this->getSubscriberQuery($year, $month);
-        $query ->where('tax_amount > 0');
 
         echo $query->dump();
 

@@ -12,7 +12,7 @@ defined('_JEXEC') or die();
 jimport( 'joomla.application.component.view');
 
 /** @noinspection PhpUndefinedClassInspection */
-class MembershiptaxreportViewVies extends JViewLegacy
+class MembershiptaxreportViewAll extends JViewLegacy
 {
 
 	function display($tpl = null)
@@ -29,14 +29,12 @@ class MembershiptaxreportViewVies extends JViewLegacy
 
         $this->subscriptions = $model->getSubscriptions($this->year, $this->month);
 
-
         $bar = JToolbar::getInstance('toolbar');
         $bar->appendButton('Link', 'folder', 'All',  JRoute::_('index.php?option=com_membershiptaxreport&view=all'), false);
         $bar->appendButton('Link', 'folder', 'VIES',  JRoute::_('index.php?option=com_membershiptaxreport&view=vies'), false);
         $bar->appendButton('Link', 'folder', 'MOSS',  JRoute::_('index.php?option=com_membershiptaxreport&view=moss'), false);
 
-
-        parent::display($tpl);
+	    parent::display($tpl);
 	}
 
 }
