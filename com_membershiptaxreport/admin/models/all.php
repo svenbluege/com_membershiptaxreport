@@ -10,7 +10,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-require_once __DIR__.'/moss.php';
+require_once __DIR__ . '/moss.php';
 
 class MembershiptaxreportModelAll extends MembershiptaxreportModelMoss
 {
