@@ -17,6 +17,9 @@ $task = JFactory::getApplication()->input->get('task');
 // Require helper file
 JLoader::register('MembershiptaxreportHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/membershiptaxreport.php');
 
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/geoipupdate.php');
+
+
 // Execute the task.
 $controller	= JControllerLegacy::getInstance('Membershiptaxreport');
 $controller->execute(JFactory::getApplication()->input->get('task'));
