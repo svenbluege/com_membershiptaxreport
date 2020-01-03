@@ -33,9 +33,9 @@ class MembershiptaxreportModelMoss extends JModelAdmin
 
 
 
-    private function getEUVATCountryCondition() {
+    private function getEUVATCountryCodeCondition() {
         $countryCodes = OSMembershipHelperEuvat::$europeanUnionVATInformation;
-        return implode(',',array_map(function ($item) {return JFactory::getDbo()->quote($item[0]); } , $countryCodes));
+        return implode(',',array_map(function ($item) {return JFactory::getDbo()->quote($item); } , array_keys($countryCodes)));
     }
 
     protected function getSubscriberQuery($year, $month) {
@@ -46,7 +46,7 @@ class MembershiptaxreportModelMoss extends JModelAdmin
             ->join('LEFT', '#__osmembership_field_value fv on s.id = fv.subscriber_id' )
             ->where('MONTH(created_date) in (' . MembershiptaxreportHelper::getMonthCondition($month) .')'
                 . ' AND YEAR(created_date) = '. (int)$year
-                . ' AND country in ('. $this->getEUVATCountryCondition() .')'
+                . ' AND c.country_2_code in ('. $this->getEUVATCountryCodeCondition() .')'
                 . ' AND (s.published = 1 OR s.published = 2)'
             )
             ->order('country_2_code, created_date');
