@@ -60,7 +60,7 @@ function GeoIPDBNeedsUpdate($maxAge = 15)
     return $needsUpdate;
 }
 
-if (!GeoIPDBNeedsUpdate()) {
+if (GeoIPDBNeedsUpdate()) {
 ?>
 
         <div class="well">
