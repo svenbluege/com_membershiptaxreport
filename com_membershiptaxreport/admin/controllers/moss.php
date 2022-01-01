@@ -35,13 +35,22 @@ class MembershiptaxreportControllerMoss extends JControllerForm
         $filename = "moss_{$year}_$monthName.csv";
 
         header('Content-Type: text/csv');
+        header('Cache-Control: no-cache');
         header('Content-Disposition: attachment; filename="'.$filename.'"');
 
-        $headline = TaxCountry::getCSVHeader();
+
 
         $fp = fopen('php://output', 'wb');
-        fputcsv($fp, $headline);
 
+        //$headline = TaxCountry::getCSVHeader();
+        // fputcsv($fp, $headline);
+        $headline = "#v1.0\n";
+        fputs($fp, $headline);
+
+
+        /**
+         * @var TaxCountry[] $countries
+         */
         $countries = [];
 
 
@@ -50,7 +59,8 @@ class MembershiptaxreportControllerMoss extends JControllerForm
         }
 
         foreach($countries as $country) {
-            fputcsv($fp, $country->getCSVLine());
+            fputcsv($fp, $country->getCSVLine_Satzart_1());
+            fputcsv($fp, $country->getCSVLine_Satzart_2());
         }
 
         fclose($fp);
@@ -114,6 +124,7 @@ class TaxCountry {
 
     public static function getCSVHeader() {
         return [
+            'Satzart',
             'Land des Verbrauchs',
             'Umsatzsteuertyp',
             'Umsatzsteuersatz',
@@ -122,8 +133,16 @@ class TaxCountry {
         ];
     }
 
-    public function getCSVLine() {
+    public function getCSVLine_Satzart_1() {
         return [
+            '1',
+            $this->countryCode
+        ];
+    }
+
+    public function getCSVLine_Satzart_2() {
+        return [
+            '2',
             $this->countryCode,
             $this->taxType,
             number_format((float)$this->taxRate, 2, '.', ''),
