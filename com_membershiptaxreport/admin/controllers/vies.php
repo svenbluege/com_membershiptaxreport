@@ -44,12 +44,29 @@ class MembershiptaxreportControllerVies extends JControllerForm
         $fp = fopen('php://output', 'wb');
         fputcsv($fp, $headline);
 
+        /**
+         * @var ViesEntry[] $entries;
+         */
+        $entries = [];
+
         foreach($subscriptions as $subscription) {
             $countryCode = $subscription->country_2_code;
-            $vatNumber = $subscription->vat_number;
+            // remove the space in NL VAT numbers
+            $vatNumber = str_replace(' ', '', $subscription->vat_number);
+            $hash = $countryCode.$vatNumber;
             $netAmount = $subscription->amount;
-            $viewEntry = new ViesEntry($countryCode, $vatNumber, $netAmount);
-            fputcsv($fp, $viewEntry->getCSVLine());
+
+            if (isset($entries[$hash])) {
+                $entries[$hash]->addNetAmount($netAmount);
+            } else {
+                $viewEntry = new ViesEntry($countryCode, $vatNumber, $netAmount);
+                $entries[$hash] = $viewEntry;
+            }
+
+        }
+
+        foreach($entries as $key=>$entry) {
+            fputcsv($fp, $entry->getCSVLine());
         }
 
         fclose($fp);
@@ -77,6 +94,10 @@ class ViesEntry {
         $this->countryCode = $countryCode;
         $this->vatNumber = $vatNumber;
         $this->netAmount = $netAmount;
+    }
+
+    public function addNetAmount(int $netAmount) {
+        $this->netAmount += $netAmount;
     }
 
     public static function getCSVHeader() {
