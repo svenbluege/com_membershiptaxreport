@@ -1,5 +1,5 @@
 <?php
-
+namespace Svenbluege\Component\MembershipProTaxReport\Administrator\Helper;
 /**
  * @package     Sven.Bluege
  * @subpackage  com_membershiptaxreport
@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 
-abstract class MembershiptaxreportHelper
+abstract class MembershipTaxReport
 {
 
     /**
@@ -27,7 +27,7 @@ abstract class MembershiptaxreportHelper
             case 15: return 'Q3'; break;
             case 16: return 'Q4'; break;
             case 17: return 'Year'; break;
-            default: $dateObj   = DateTime::createFromFormat('!m', $month); return $dateObj->format('F'); // March; break;
+            default: $dateObj   = \DateTime::createFromFormat('!m', $month); return $dateObj->format('F'); // March; break;
         }
     }
 

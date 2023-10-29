@@ -11,20 +11,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-
-<?php
-
-/**
- * @package     Sven.Bluege
- * @subpackage  com_membershiptaxreport
- *
- * @copyright   Copyright (C) 2005 - 2019 Sven Bluege All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
-
-defined('_JEXEC') or die('Restricted access');
-
-?>
 <style>
 
     .report {
@@ -68,11 +54,11 @@ defined('_JEXEC') or die('Restricted access');
 
 </style>
 
-<form action="<?php echo JRoute::_('index.php');?>" method="get">
+<form action="<?php echo \Joomla\CMS\Router\Route::_('index.php');?>" method="get">
 
     <select name="month">
         <?php FOR($i=1; $i<18; $i++) {
-            $monthName = MembershiptaxreportHelper::monthToString($i);
+            $monthName = \Svenbluege\Component\MembershipProTaxReport\Administrator\Helper\MembershipTaxReport::monthToString($i);
             $selected = $this->month == $i ? 'selected="selected"': '';
             echo "<option value='$i' $selected>$monthName</option>";
         }?>
@@ -91,7 +77,7 @@ defined('_JEXEC') or die('Restricted access');
 
 </form>
 
-<h1>VIES Report for <?php echo MembershiptaxreportHelper::monthToString($this->month).'.'. $this->year; ?> (<a href="<?php echo JRoute::_('index.php?option=com_membershiptaxreport&task=vies.export&year='.$this->year.'&month='.$this->month) ?>">Export</a>)</h1>
+<h1>VIES Report for <?php echo \Svenbluege\Component\MembershipProTaxReport\Administrator\Helper\MembershipTaxReport::monthToString($this->month).'.'. $this->year; ?> (<a href="<?php echo \Joomla\CMS\Router\Route::_('index.php?option=com_membershiptaxreport&task=vies.export&year='.$this->year.'&month='.$this->month) ?>">Export</a>)</h1>
 
 <table class="report">
 

@@ -1,4 +1,7 @@
 <?php
+namespace Svenbluege\Component\MembershipProTaxReport\Administrator\Controller;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * @package     Sven.Bluege
@@ -10,7 +13,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class MembershiptaxreportControllerGeoipupdate extends JControllerForm
+class GeoipupdateController extends FormController
 {
     public function updategeoip()
     {
@@ -22,11 +25,11 @@ class MembershiptaxreportControllerGeoipupdate extends JControllerForm
         // Load the GeoIP library if it's not already loaded
         if (!class_exists('AkeebaGeoipProvider'))
         {
-            if (@file_exists(JPATH_PLUGINS . '/system/akgeoip/lib/akgeoip.php'))
+            if (@file_exists(JPATH_PLUGINS . '/system/akgeoip/src/Extension/lib/akgeoip.php'))
             {
-                if (@include_once JPATH_PLUGINS . '/system/akgeoip/lib/vendor/autoload.php')
+                if (@include_once JPATH_PLUGINS . '/system/akgeoip/src/Extension/lib/vendor/autoload.php')
                 {
-                    @include_once JPATH_PLUGINS . '/system/akgeoip/lib/akgeoip.php';
+                    @include_once JPATH_PLUGINS . '/system/akgeoip/src/Extension/lib/akgeoip.php';
                 }
             }
         }
@@ -38,7 +41,7 @@ class MembershiptaxreportControllerGeoipupdate extends JControllerForm
 
         if ($result === true)
         {
-            $msg = JText::_('Geo IP Update complete');
+            $msg = Text::_('Geo IP Update complete');
             $this->setRedirect($url, $msg);
         }
         else

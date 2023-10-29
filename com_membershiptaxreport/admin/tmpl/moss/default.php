@@ -52,12 +52,12 @@ defined('_JEXEC') or die('Restricted access');
 
 </style>
 
-<form action="<?php echo JRoute::_('index.php');?>" method="get">
+<form action="<?php echo \Joomla\CMS\Router\Route::_('index.php');?>" method="get">
 
     <select name="month">
         <?php FOR($i=1; $i<18; $i++) {
             $selected = $this->month == $i ? 'selected="selected"': '';
-            $monthName = MembershiptaxreportHelper::monthToString($i);
+            $monthName = \Svenbluege\Component\MembershipProTaxReport\Administrator\Helper\MembershipTaxReport::monthToString($i);
             echo "<option value='$i' $selected>$monthName</option>";
         }?>
     </select>
@@ -75,7 +75,7 @@ defined('_JEXEC') or die('Restricted access');
 
 </form>
 
-<h1>MOSS Report for <?php echo MembershiptaxreportHelper::monthToString($this->month) .'.'. $this->year; ?> (<a href="<?php echo JRoute::_('index.php?option=com_membershiptaxreport&task=moss.export&year='.$this->year.'&month='.$this->month) ?>">Export</a>)</h1>
+<h1>MOSS Report for <?php echo \Svenbluege\Component\MembershipProTaxReport\Administrator\Helper\MembershipTaxReport::monthToString($this->month) .'.'. $this->year; ?> (<a href="<?php echo \Joomla\CMS\Router\Route::_('index.php?option=com_membershiptaxreport&task=moss.export&year='.$this->year.'&month='.$this->month) ?>">Export</a>)</h1>
 
 <table class="report">
 

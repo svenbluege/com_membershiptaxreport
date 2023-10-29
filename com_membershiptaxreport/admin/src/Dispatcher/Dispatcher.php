@@ -6,13 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2019 Sven Bluege All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die;
+namespace Svenbluege\Component\MembershipProTaxReport\Administrator\Dispatcher;
 
-/** @noinspection PhpUndefinedClassInspection */
-class MembershiptaxreportController extends JControllerLegacy
-{
-	protected $default_view = 'moss';
+
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
+
+class Dispatcher extends ComponentDispatcher {
 
 }
-
-

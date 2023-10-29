@@ -1,4 +1,10 @@
 <?php
+namespace Svenbluege\Component\MembershipProTaxReport\Administrator\Controller;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\FormController;
+use Svenbluege\Component\MembershipProTaxReport\Administrator\Helper\MembershipTaxReport;
+use Svenbluege\Component\MembershipProTaxReport\Administrator\Library\ViesEntry;
+use Svenbluege\Component\MembershipProTaxReport\Administrator\Model\MossModel;
 
 /**
  * @package     Sven.Bluege
@@ -10,9 +16,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class MembershiptaxreportControllerVies extends JControllerForm
+class ViesController extends FormController
 {
-    public function getModel($name = 'Vies', $prefix ='MembershiptaxreportModel', $config = array('ignore_request' => true))
+    public function getModel($name = 'Vies', $prefix ='', $config = array('ignore_request' => true))
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -20,10 +26,10 @@ class MembershiptaxreportControllerVies extends JControllerForm
     public function export()
     {
         /**
-         * @var MembershiptaxreportModelMoss $model
+         * @var MossModel $model
          */
 
-        $app = JFactory::getApplication();
+        $app = Factory::getApplication();
         $year = $app->input->getInt('year');
         $month = $app->input->getInt('month');
         $debugMode = $app->input->getBool('debug', false);
@@ -31,7 +37,7 @@ class MembershiptaxreportControllerVies extends JControllerForm
         $model = $this->getModel();
         $subscriptions = $model->getSubscriptions($year, $month);
 
-        $monthName = MembershiptaxreportHelper::monthToString($month);
+        $monthName = MembershipTaxReport::monthToString($month);
         $filename = "vies_{$year}_$monthName.csv";
 
         header("Cache-Control: no-cache, must-revalidate"); //HTTP 1.1
@@ -77,44 +83,4 @@ class MembershiptaxreportControllerVies extends JControllerForm
 
 }
 
-class ViesEntry {
-    private $countryCode;
-    private $vatNumber;
-    private $type = 'L';
-    private $netAmount;
 
-
-    public function __construct($countryCode, $vatNumber, $netAmount)
-    {
-
-        if ($countryCode == 'GR') {
-            $countryCode = 'EL';
-        }
-
-        $this->countryCode = $countryCode;
-        $this->vatNumber = $vatNumber;
-        $this->netAmount = $netAmount;
-    }
-
-    public function addNetAmount(int $netAmount) {
-        $this->netAmount += $netAmount;
-    }
-
-    public static function getCSVHeader() {
-        return [
-            'Länderkennzeichen',
-            'USt-IdNr.',
-            'Betrag (Euro)',
-            'Art der Leistung'
-        ];
-    }
-
-    public function getCSVLine() {
-        return [
-            $this->countryCode,
-            $this->vatNumber,
-            (int)round($this->netAmount),
-            $this->type
-        ];
-    }
-}

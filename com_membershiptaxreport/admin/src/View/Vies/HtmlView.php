@@ -1,4 +1,9 @@
 <?php
+namespace Svenbluege\Component\MembershipProTaxReport\Administrator\View\Vies;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
+
 /**
  * @package     Sven.Bluege
  * @subpackage  com_membershiptaxreport
@@ -9,15 +14,13 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
 
-/** @noinspection PhpUndefinedClassInspection */
-class MembershiptaxreportViewVies extends JViewLegacy
+class HtmlView extends \Joomla\CMS\MVC\View\HtmlView
 {
 
 	function display($tpl = null)
 	{
-        $app = JFactory::getApplication();
+        $app = Factory::getApplication();
 
         /**
          * @var MembershiptaxreportModelMoss $model
@@ -30,10 +33,10 @@ class MembershiptaxreportViewVies extends JViewLegacy
         $this->subscriptions = $model->getSubscriptions($this->year, $this->month);
 
 
-        $bar = JToolbar::getInstance('toolbar');
-        $bar->appendButton('Link', 'folder', 'All',  JRoute::_('index.php?option=com_membershiptaxreport&view=all'), false);
-        $bar->appendButton('Link', 'folder', 'VIES',  JRoute::_('index.php?option=com_membershiptaxreport&view=vies'), false);
-        $bar->appendButton('Link', 'folder', 'MOSS',  JRoute::_('index.php?option=com_membershiptaxreport&view=moss'), false);
+        $bar = Toolbar::getInstance('toolbar');
+        $bar->appendButton('Link', 'folder', 'All',  Route::_('index.php?option=com_membershiptaxreport&view=all'), false);
+        $bar->appendButton('Link', 'folder', 'VIES',  Route::_('index.php?option=com_membershiptaxreport&view=vies'), false);
+        $bar->appendButton('Link', 'folder', 'MOSS',  Route::_('index.php?option=com_membershiptaxreport&view=moss'), false);
 
 
         parent::display($tpl);

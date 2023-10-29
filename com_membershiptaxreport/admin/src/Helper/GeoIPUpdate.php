@@ -15,7 +15,7 @@ function hasGeoIPPlugin()
 
     if (is_null($result))
     {
-        $db = JFactory::getDbo();
+        $db = \Joomla\CMS\Factory::getDbo();
 
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
@@ -40,7 +40,7 @@ function GeoIPDBNeedsUpdate($maxAge = 15)
     }
 
     // Get the modification time of the database file
-    $filePath = JPATH_ROOT . '/plugins/system/akgeoip/db/GeoLite2-Country.mmdb';
+    $filePath = JPATH_ROOT . '/plugins/system/akgeoip/src/Extension/db/GeoLite2-Country.mmdb';
     $modTime = @filemtime($filePath);
 
     // This is now
@@ -73,7 +73,7 @@ if (GeoIPDBNeedsUpdate()) {
             </p>
 
             <a class="btn"
-               href="index.php?option=com_membershiptaxreport&view=all&task=geoipupdate.updategeoip&<?php echo JSession::getFormToken() ?>=1">
+               href="index.php?option=com_membershiptaxreport&view=all&task=geoipupdate.updategeoip&<?php echo \Joomla\CMS\Session\Session::getFormToken() ?>=1">
                 Update
             </a>
         </div>

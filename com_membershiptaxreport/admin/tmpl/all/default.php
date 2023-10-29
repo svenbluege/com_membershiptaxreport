@@ -51,12 +51,12 @@ defined('_JEXEC') or die('Restricted access');
     }
 
 </style>
-
-<form action="<?php echo JRoute::_('index.php');?>" method="get">
+<?php require_once(JPATH_COMPONENT_ADMINISTRATOR . '/src/Helper/GeoIPUpdate.php'); ?>
+<form action="<?php echo \Joomla\CMS\Router\Route::_('index.php');?>" method="get">
 
     <select name="month">
         <?php FOR($i=1; $i<18; $i++) {
-            $monthName = MembershiptaxreportHelper::monthToString($i);
+            $monthName = \Svenbluege\Component\MembershipProTaxReport\Administrator\Helper\MembershipTaxReport::monthToString($i);
             $selected = $this->month == $i ? 'selected="selected"': '';
             echo "<option value='$i' $selected>$monthName</option>";
         }?>
@@ -75,7 +75,7 @@ defined('_JEXEC') or die('Restricted access');
 
 </form>
 
-<h1>Report for <?php echo MembershiptaxreportHelper::monthToString($this->month) .'.'. $this->year; ?></h1>
+<h1>Report for <?php echo \Svenbluege\Component\MembershipProTaxReport\Administrator\Helper\MembershipTaxReport::monthToString($this->month) .'.'. $this->year; ?></h1>
 
 <table class="report">
 

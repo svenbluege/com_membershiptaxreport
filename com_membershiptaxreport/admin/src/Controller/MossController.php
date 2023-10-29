@@ -1,4 +1,9 @@
 <?php
+namespace Svenbluege\Component\MembershipProTaxReport\Administrator\Controller;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\FormController;
+use Svenbluege\Component\MembershipProTaxReport\Administrator\Helper\MembershipTaxReport;
+use Svenbluege\Component\MembershipProTaxReport\Administrator\Library\TaxCountry;
 
 /**
  * @package     Sven.Bluege
@@ -10,9 +15,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class MembershiptaxreportControllerMoss extends JControllerForm
+class MossController extends FormController
 {
-    public function getModel($name = 'Moss', $prefix ='MembershiptaxreportModel', $config = array('ignore_request' => true))
+    public function getModel($name = 'Moss', $prefix ='', $config = array('ignore_request' => true))
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -23,7 +28,7 @@ class MembershiptaxreportControllerMoss extends JControllerForm
          * @var MembershiptaxreportModelMoss $model
          */
 
-        $app = JFactory::getApplication();
+        $app = Factory::getApplication();
         $year = $app->input->getInt('year');
         $month = $app->input->getInt('month');
         $debugMode = $app->input->getBool('debug', false);
@@ -31,7 +36,7 @@ class MembershiptaxreportControllerMoss extends JControllerForm
         $model = $this->getModel();
         $subscriptions = $model->getSubscriptions($year, $month);
 
-        $monthName = MembershiptaxreportHelper::monthToString($month);
+        $monthName = MembershipTaxReport::monthToString($month);
         $filename = "moss_{$year}_$monthName.csv";
 
         header('Content-Type: text/csv');
@@ -99,55 +104,3 @@ class MembershiptaxreportControllerMoss extends JControllerForm
     }
 }
 
-class TaxCountry {
-    private $countryCode;
-    private $taxRate;
-    private $taxType;
-    private $netAmount = 0;
-    private $taxAmount = 0;
-
-    public function __construct($countryCode, $taxRate, $taxType)
-    {
-        $this->taxRate = $taxRate;
-        $this->countryCode = $countryCode;
-        $this->taxType = $taxType;
-    }
-
-    public function addEntry($netAmount, $taxAmount) {
-        if (isset($netAmount)) {
-            $this->netAmount += $netAmount;
-        }
-        if (isset($taxAmount)) {
-            $this->taxAmount += $taxAmount;
-        }
-    }
-
-    public static function getCSVHeader() {
-        return [
-            'Satzart',
-            'Land des Verbrauchs',
-            'Umsatzsteuertyp',
-            'Umsatzsteuersatz',
-            'Steuerbemessungsgrundlage, Nettobetrag',
-            'Umsatzsteuerbetrag'
-        ];
-    }
-
-    public function getCSVLine_Satzart_1() {
-        return [
-            '1',
-            $this->countryCode
-        ];
-    }
-
-    public function getCSVLine_Satzart_2() {
-        return [
-            '2',
-            $this->countryCode,
-            $this->taxType,
-            number_format((float)$this->taxRate, 2, '.', ''),
-            number_format((float)$this->netAmount, 2, '.', ''),
-            number_format((float)$this->taxAmount, 2, '.', '')
-        ];
-    }
-}
