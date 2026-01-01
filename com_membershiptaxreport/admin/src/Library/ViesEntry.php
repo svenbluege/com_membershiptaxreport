@@ -26,17 +26,23 @@ class ViesEntry {
 
     public static function getCSVHeader() {
         return [
-            'Länderkennzeichen',
             'USt-IdNr.',
             'Betrag (Euro)',
             'Art der Leistung'
         ];
     }
 
+    private function getFixedVATNumber():string {
+        if (str_starts_with($this->vatNumber, $this->countryCode)) {
+            return $this->vatNumber;
+        }
+        return $this->countryCode . $this->vatNumber;
+    }
+
     public function getCSVLine() {
+
         return [
-            $this->countryCode,
-            $this->vatNumber,
+            $this->getFixedVATNumber(),
             (int)round($this->netAmount),
             $this->type
         ];

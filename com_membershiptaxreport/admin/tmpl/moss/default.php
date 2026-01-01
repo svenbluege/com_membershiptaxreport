@@ -12,64 +12,45 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <style>
-
-    .report {
-        width: 100%;
-    }
-
-    tr:nth-child(odd) {background: #DDD}
-
-    tr:nth-child(even) {background: #eee}
-
-    tr.country-header {
-        background-color: #CCC;
-    }
-
-    tr.country-header th {
-        padding: 10px;
-        font-size: 1.3em;
-    }
-
-    tr.header,
-    tr.subtotal {
-        background: black;
-        color: white;
-    }
-
-    tr.total {
-        background: darkblue;
-        color: white;
-    }
-    tr.spacer {
-        height: 2em;
-        background-color: transparent;
-    }
-
     td.amount,
     th.amount {
         text-align: right;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .subtotal, .total {
+            --body-color: black;
+            color: black;
+        }
     }
 
 </style>
 
 <form action="<?php echo \Joomla\CMS\Router\Route::_('index.php');?>" method="get">
 
-    <select name="month">
-        <?php FOR($i=1; $i<18; $i++) {
-            $selected = $this->month == $i ? 'selected="selected"': '';
-            $monthName = \Svenbluege\Component\MembershipProTaxReport\Administrator\Helper\MembershipTaxReport::monthToString($i);
-            echo "<option value='$i' $selected>$monthName</option>";
-        }?>
-    </select>
+    <div class="row g-1 mb-3">
+        <div class="col">
+        <select name="month" class="form-select">
+            <?php FOR($i=1; $i<18; $i++) {
+                $selected = $this->month == $i ? 'selected="selected"': '';
+                $monthName = \Svenbluege\Component\MembershipProTaxReport\Administrator\Helper\MembershipTaxReport::monthToString($i);
+                echo "<option value='$i' $selected>$monthName</option>";
+            }?>
+        </select>
+        </div>
+        <div class="col">
+        <select name="year" class="form-select">
+            <?php FOR($i=2012; $i<=date("Y"); $i++) {
+                $selected = $this->year == $i ? 'selected="selected"': '';
+                echo "<option value='$i' $selected>$i</option>";
+            }?>
+        </select>
+        </div>
+        <div class="col">
+        <input class="btn btn-primary" type="submit" value="Load">
+        </div>
+    </div>
 
-    <select name="year">
-        <?php FOR($i=2012; $i<=date("Y"); $i++) {
-            $selected = $this->year == $i ? 'selected="selected"': '';
-            echo "<option value='$i' $selected>$i</option>";
-        }?>
-    </select>
-
-    <input type="submit" value="Load">
     <input type="hidden" value="com_membershiptaxreport" name="option">
     <input type="hidden" value="moss" name="view">
 
@@ -77,7 +58,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <h1>MOSS Report for <?php echo \Svenbluege\Component\MembershipProTaxReport\Administrator\Helper\MembershipTaxReport::monthToString($this->month) .'.'. $this->year; ?> (<a href="<?php echo \Joomla\CMS\Router\Route::_('index.php?option=com_membershiptaxreport&task=moss.export&year='.$this->year.'&month='.$this->month) ?>">Export</a>)</h1>
 
-<table class="report">
+<table class="report table table-hover table-striped">
 
     <tr class="header">
         <th>Invoice and date</th>
@@ -103,9 +84,9 @@ defined('_JEXEC') or die('Restricted access');
     $sumInvoices = 0;
 
     function renderFooterLine($cssClass, $sumAmount, $sumTaxAmount, $sumGrossAmount, $sumInvoices) {
-        echo "<tr class='$cssClass'>";
+        echo "<tr class='$cssClass table-primary'>";
         echo "<th align='left' colspan='4'>$sumInvoices Invoices</th><th class='amount'>$sumAmount</th><th></th><th class='amount'>$sumTaxAmount</th><th class='amount'>$sumGrossAmount</th></tr>";
-        echo "</tr><tr class='spacer'><td></td></tr>";
+        echo "</tr>";
     }
 ?>
 
@@ -129,7 +110,7 @@ defined('_JEXEC') or die('Restricted access');
         $sumCountryInvoices = 0;
 
         echo "<tr class='country-header'>";
-        echo "<th colspan='9'>";
+        echo "<th colspan='8'>";
         echo $subscription->country_2_code . ' - ' . $subscription->countryname;
         echo "</th>";
         echo "</tr>";

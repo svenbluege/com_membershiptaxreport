@@ -49,7 +49,7 @@ class MossController extends FormController
 
         //$headline = TaxCountry::getCSVHeader();
         // fputcsv($fp, $headline);
-        $headline = "#v1.0\n";
+        $headline = "#v2.0\n";
         fputs($fp, $headline);
 
 

@@ -40,14 +40,18 @@ class ViesController extends FormController
         $monthName = MembershipTaxReport::monthToString($month);
         $filename = "vies_{$year}_$monthName.csv";
 
-        header("Cache-Control: no-cache, must-revalidate"); //HTTP 1.1
-        header("Pragma: no-cache"); //HTTP 1.0
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="'.$filename.'"');
-
-        $headline = ViesEntry::getCSVHeader();
+        if (!$debugMode) {
+            header("Cache-Control: no-cache, must-revalidate"); //HTTP 1.1
+            header("Pragma: no-cache"); //HTTP 1.0
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+        }
 
         $fp = fopen('php://output', 'wb');
+        fputcsv($fp, ["#v3.0"]);
+        fputcsv($fp, ["#ve3.2.1"]);
+
+        $headline = ViesEntry::getCSVHeader();
         fputcsv($fp, $headline);
 
         /**

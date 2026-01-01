@@ -63,19 +63,27 @@ function GeoIPDBNeedsUpdate($maxAge = 15)
 if (GeoIPDBNeedsUpdate()) {
 ?>
 
-        <div class="well">
-            <h3>
-                GEO IP Database
-            </h3>
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    GEO IP Database Update
+                </h3>
+            </div>
+            <div class="card-body">
+                <h3>
+                    GEO IP Database
+                </h3>
 
-            <p>
-                Datebase is outdated and needs an update.
-            </p>
+                <p>
+                    Datebase is outdated and needs an update.
+                </p>
 
-            <a class="btn"
-               href="index.php?option=com_membershiptaxreport&view=all&task=geoipupdate.updategeoip&<?php echo \Joomla\CMS\Session\Session::getFormToken() ?>=1">
-                Update
-            </a>
+                <a class="btn btn-primary"
+                   href="index.php?option=com_membershiptaxreport&view=all&task=geoipupdate.updategeoip&<?php echo \Joomla\CMS\Session\Session::getFormToken() ?>=1">
+                    Update
+                </a>
+            </div>
         </div>
 
 <?php
