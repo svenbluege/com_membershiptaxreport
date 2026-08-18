@@ -1,5 +1,8 @@
 <?php
 namespace Svenbluege\Component\MembershipProTaxReport\Administrator\Helper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
+
 /**
  * @package     Sven.Bluege
  * @subpackage  com_membershiptaxreport
@@ -13,6 +16,23 @@ defined('_JEXEC') or die;
 
 abstract class MembershipTaxReport
 {
+
+    /**
+     * Adds the links to all report views to the toolbar.
+     */
+    public static function addToolbarLinks() {
+        $views = [
+            'all'     => 'All',
+            'vies'    => 'VIES',
+            'moss'    => 'MOSS',
+            'revenue' => 'Revenue'
+        ];
+
+        $bar = Toolbar::getInstance('toolbar');
+        foreach($views as $view => $title) {
+            $bar->appendButton('Link', 'folder', $title, Route::_('index.php?option=com_membershiptaxreport&view='.$view), false);
+        }
+    }
 
     /**
      * Translate the month into something readable.
